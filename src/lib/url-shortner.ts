@@ -5,8 +5,16 @@ const BASE = ALPHABET.length;
 
 function encode(id: string): string {
 
-  const num = parseInt(id.slice(-6), 16);
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    const char = id.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; 
+  }
+  
+  const num = Math.abs(hash);
   if (num === 0) return ALPHABET[0];
+  
   let shortCode = '';
   let tempNum = num;
 
@@ -15,6 +23,11 @@ function encode(id: string): string {
     shortCode = ALPHABET[remainder] + shortCode;
     tempNum = Math.floor(tempNum / BASE);
   }
+  
+  while (shortCode.length < 3) {
+    shortCode = ALPHABET[0] + shortCode;
+  }
+  
   return shortCode;
 }
 
