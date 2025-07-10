@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Url{
-  id String @default(cuid())
+  id String @id @default(cuid())
   original String @unique
   shortened String @unique
   createdAt DateTime @default(now()) 
